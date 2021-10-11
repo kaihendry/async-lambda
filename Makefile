@@ -16,7 +16,7 @@ destroy:
 
 local:
 	sam build
-	sam local invoke helloFromLambdaFunction
+	sam local invoke waitFunction
 
 tail:
-	AWS_PROFILE=$(PROFILE) sam logs -n helloFromLambdaFunction --stack-name $(STACK) --tail
+	AWS_PROFILE=$(PROFILE) sam logs -n waitFunction --stack-name $(STACK) --tail

@@ -1,15 +1,26 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
-  invokeA
+  async test
 
 Transform:
 - AWS::Serverless-2016-10-31
 
 Resources:
-  helloFromLambdaFunction:
+  waitFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/handlers/hello-from-lambda.helloFromLambdaHandler
+      Handler: src/handlers/wait.handler
+      Runtime: nodejs14.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 900
+      Policies:
+        - AWSLambdaBasicExecutionRole
+  invokeFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/invoke-wait.handler
       Runtime: nodejs14.x
       Architectures:
         - x86_64
@@ -18,3 +29,9 @@ Resources:
       Description: A Lambda function that returns a static string.
       Policies:
         - AWSLambdaBasicExecutionRole
+        - Version: "2012-10-17"
+          Statement:
+            - Effect: "Allow"
+              Action:
+                - "lambda:InvokeFunction"
+              Resource: '*'
